@@ -30,9 +30,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun createNotification() {
 
-        val pendingIntent = activityPendingIntent()
+        val activityStartIntent = getActivityStartIntent()
 
-        val notificationBuilder = createNotificationBuilder(pendingIntent)
+        val notificationBuilder = createNotificationBuilder(activityStartIntent)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             registerNotificationChannel()
@@ -42,22 +42,35 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun createNotificationBuilder(pendingIntent: PendingIntent): NotificationCompat.Builder {
+    fun createNotificationBuilder(onClickIntent: PendingIntent): NotificationCompat.Builder {
         return NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(android.R.drawable.ic_notification_overlay)
                 .setContentTitle("Dog3")
                 .setContentText("Pies3")
                 .setStyle(NotificationCompat.BigTextStyle()
-                        .bigText("This romnatic, i can and the greezly bear he grabs and he can, " +
-                                "greezly bear he grabs and he can, but he is am ountain ma" +
-                                "greezly bear he grabs and he can, but he is am ountain ma" +
-                                "but he is am ountain main :) :) am i am a mountain mn"))
+                        .bigText("Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
+                                "Aliquam eget mi pellentesque, ullamcorper dolor eu, sollicitudin ex. " +
+                                "Ut ac velit venenatis, placerat magna in, consequat quam. " +
+                                "Praesent lacinia posuere magna, vulputate pharetra eros sagittis ut. " +
+                                "Donec dignissim diam velit, ac rutrum risus efficitur nec. Nullam id sem purus. " +
+                                "Morbi nec eros et justo malesuada vestibulum. Curabitur efficitur sapien " +
+                                "nec nunc porta, ac venenatis libero viverra. Aliquam ac enim ac augue molestie " +
+                                "varius quis id felis. Suspendisse id suscipit arcu. Vestibulum vel rutrum tellus."))
                 // set priority support Android 7.1 and lower (8.0+ set it in Notification Channel)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 // content intent - intent triggered on user click
-                .setContentIntent(pendingIntent)
+                .setContentIntent(onClickIntent)
                 // auto cancel true - automatically removes the notification when the users taps it
                 .setAutoCancel(true)
+                // depending on category system may determine whether to disturb the user or not (alarm, reminder)
+//                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                // lock screen visibility (public, secret and default private)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                // when true the notification interups (sound, vibration) only for the first time, not for updates
+//                .setOnlyAlertOnce(true)
+                // system cancel the notification after specified duration elapses
+//                .setTimeoutAfter(2000)
+
     }
 
     fun showTheNotification(notificationBuilder: NotificationCompat.Builder) {
@@ -65,7 +78,7 @@ class MainActivity : AppCompatActivity() {
         notificationManager.notify(GLOBAL_NOTIFICATION_ID, notificationBuilder.build())
     }
 
-    fun activityPendingIntent(): PendingIntent {
+    fun getActivityStartIntent(): PendingIntent {
         val intent = Intent(this, MainActivity::class.java)
         intent.flags = (Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         return PendingIntent.getActivity(this, 0, intent, 0)
