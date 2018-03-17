@@ -51,8 +51,6 @@ class MainActivity : AppCompatActivity() {
                         .bigText("Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
                                 "Aliquam eget mi pellentesque, ullamcorper dolor eu, sollicitudin ex. " +
                                 "Ut ac velit venenatis, placerat magna in, consequat quam. " +
-                                "Praesent lacinia posuere magna, vulputate pharetra eros sagittis ut. " +
-                                "Donec dignissim diam velit, ac rutrum risus efficitur nec. Nullam id sem purus. " +
                                 "Morbi nec eros et justo malesuada vestibulum. Curabitur efficitur sapien " +
                                 "nec nunc porta, ac venenatis libero viverra. Aliquam ac enim ac augue molestie " +
                                 "varius quis id felis. Suspendisse id suscipit arcu. Vestibulum vel rutrum tellus."))
