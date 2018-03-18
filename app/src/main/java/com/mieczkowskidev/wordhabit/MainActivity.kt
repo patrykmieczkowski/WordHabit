@@ -1,4 +1,4 @@
-package com.mieczkowskidev.losoweslowko
+package com.mieczkowskidev.wordhabit
 
 import android.app.NotificationChannel
 import android.app.NotificationManager

@@ -1,4 +1,4 @@
-package com.mieczkowskidev.losoweslowko
+package com.mieczkowskidev.wordhabit
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
