@@ -23,5 +23,7 @@ class MyFirebaseMessageHandler : FirebaseMessagingService() {
         if (p0.notification != null) {
             Log.d(TAG, "Notification body ${p0.notification.body} ")
         }
+
+        FirebaseReader().readFromFirebase()
     }
 }
