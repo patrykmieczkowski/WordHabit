@@ -12,6 +12,7 @@ import android.support.v4.app.NotificationCompat
 import android.support.v4.app.NotificationManagerCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
+import com.google.firebase.messaging.RemoteMessage
 
 
 class MainActivity : AppCompatActivity() {
@@ -64,9 +65,9 @@ class MainActivity : AppCompatActivity() {
 //                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                 // lock screen visibility (public, secret and default private)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                // when true the notification interups (sound, vibration) only for the first time, not for updates
+        // when true the notification interups (sound, vibration) only for the first time, not for updates
 //                .setOnlyAlertOnce(true)
-                // system cancel the notification after specified duration elapses
+        // system cancel the notification after specified duration elapses
 //                .setTimeoutAfter(2000)
 
     }

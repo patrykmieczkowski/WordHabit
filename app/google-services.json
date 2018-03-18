@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1034797496033",
+    "firebase_url": "https://wordhabit-1d609.firebaseio.com",
+    "project_id": "wordhabit-1d609",
+    "storage_bucket": "wordhabit-1d609.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1034797496033:android:89cdbda067bd4052",
+        "android_client_info": {
+          "package_name": "com.mieczkowskidev.wordhabit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1034797496033-hdt5iltcih7cj5rph0mhfs5ms61tff67.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mieczkowskidev.wordhabit",
+            "certificate_hash": "b1e8c162c07f3195b2dabda27aa7f8716c65c8a8"
+          }
+        },
+        {
+          "client_id": "1034797496033-0lsei5tbfsknskjvs0vtos8sk99e2a10.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCo5GwnozmzNidTn2kqUdu-_zgxGh9n-G0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1034797496033-0lsei5tbfsknskjvs0vtos8sk99e2a10.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
