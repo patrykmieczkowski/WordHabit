@@ -11,18 +11,12 @@ import android.support.annotation.RequiresApi
 import android.support.v4.app.NotificationCompat
 import android.support.v4.app.NotificationManagerCompat
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
-import com.google.firebase.database.*
 
 class MainActivity : AppCompatActivity() {
 
     companion object {
         private val TAG = MainActivity::class.java.simpleName
     }
-
-    val CHANNEL_ID = "main_channel"
-    // notification ID is needed to update or remove the notification
-    val GLOBAL_NOTIFICATION_ID = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -38,7 +32,7 @@ class MainActivity : AppCompatActivity() {
 
         val activityStartIntent = getActivityStartIntent()
 
-        val notificationBuilder = createNotificationBuilder(activityStartIntent)
+        val notificationBuilder = NotificationProvider().createNotificationBuilder(this, activityStartIntent)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             registerNotificationChannel()
@@ -48,38 +42,9 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun createNotificationBuilder(onClickIntent: PendingIntent): NotificationCompat.Builder {
-        return NotificationCompat.Builder(this, CHANNEL_ID)
-                .setSmallIcon(android.R.drawable.ic_notification_overlay)
-                .setContentTitle("Dog3")
-                .setContentText("Pies3")
-                .setStyle(NotificationCompat.BigTextStyle()
-                        .bigText("Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
-                                "Aliquam eget mi pellentesque, ullamcorper dolor eu, sollicitudin ex. " +
-                                "Ut ac velit venenatis, placerat magna in, consequat quam. " +
-                                "Morbi nec eros et justo malesuada vestibulum. Curabitur efficitur sapien " +
-                                "nec nunc porta, ac venenatis libero viverra. Aliquam ac enim ac augue molestie " +
-                                "varius quis id felis. Suspendisse id suscipit arcu. Vestibulum vel rutrum tellus."))
-                // set priority support Android 7.1 and lower (8.0+ set it in Notification Channel)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                // content intent - intent triggered on user click
-                .setContentIntent(onClickIntent)
-                // auto cancel true - automatically removes the notification when the users taps it
-                .setAutoCancel(true)
-                // depending on category system may determine whether to disturb the user or not (alarm, reminder)
-//                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-                // lock screen visibility (public, secret and default private)
-                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-        // when true the notification interups (sound, vibration) only for the first time, not for updates
-//                .setOnlyAlertOnce(true)
-        // system cancel the notification after specified duration elapses
-//                .setTimeoutAfter(2000)
-
-    }
-
     fun showTheNotification(notificationBuilder: NotificationCompat.Builder) {
         val notificationManager = NotificationManagerCompat.from(this)
-        notificationManager.notify(GLOBAL_NOTIFICATION_ID, notificationBuilder.build())
+        notificationManager.notify(NotificationProvider().GLOBAL_NOTIFICATION_ID, notificationBuilder.build())
     }
 
     fun getActivityStartIntent(): PendingIntent {
@@ -98,7 +63,7 @@ class MainActivity : AppCompatActivity() {
 
         val name = getString(R.string.notification_channel_name)
         val description = getString(R.string.notification_channel_description)
-        val channel = NotificationChannel(CHANNEL_ID, name, NotificationManager.IMPORTANCE_DEFAULT)
+        val channel = NotificationChannel(NotificationProvider().CHANNEL_ID, name, NotificationManager.IMPORTANCE_DEFAULT)
         channel.description = description
 
         val notificationManager = this.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager

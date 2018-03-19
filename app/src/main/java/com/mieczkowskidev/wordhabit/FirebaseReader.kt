@@ -16,6 +16,7 @@ class FirebaseReader {
     }
 
     fun readFromFirebase() {
+        Log.d(TAG, "reading from firebase")
 
         val firebaseDatabase = FirebaseDatabase.getInstance()
         val myRef = firebaseDatabase.getReference("animals")
