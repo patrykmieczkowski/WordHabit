@@ -48,29 +48,29 @@ class NotificationProvider {
 
     }
 
-    fun createNotification() {
+    fun createNotification(context: Context) {
 
-        val activityStartIntent = getActivityStartIntent()
+        val activityStartIntent = getActivityStartIntent(context)
 
-        val notificationBuilder = NotificationProvider().createNotificationBuilder(this, activityStartIntent)
+        val notificationBuilder = NotificationProvider().createNotificationBuilder(context, activityStartIntent)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            registerNotificationChannel()
+            registerNotificationChannel(context)
         }
 
-        showTheNotification(notificationBuilder)
+        showTheNotification(notificationBuilder, context)
 
     }
 
-    fun showTheNotification(notificationBuilder: NotificationCompat.Builder) {
-        val notificationManager = NotificationManagerCompat.from(this)
+    fun showTheNotification(notificationBuilder: NotificationCompat.Builder, context: Context) {
+        val notificationManager = NotificationManagerCompat.from(context)
         notificationManager.notify(NotificationProvider().GLOBAL_NOTIFICATION_ID, notificationBuilder.build())
     }
 
-    fun getActivityStartIntent(): PendingIntent {
-        val intent = Intent(this, MainActivity::class.java)
+    fun getActivityStartIntent(context: Context): PendingIntent {
+        val intent = Intent(context, MainActivity::class.java)
         intent.flags = (Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-        return PendingIntent.getActivity(this, 0, intent, 0)
+        return PendingIntent.getActivity(context, 0, intent, 0)
     }
 
     /**
