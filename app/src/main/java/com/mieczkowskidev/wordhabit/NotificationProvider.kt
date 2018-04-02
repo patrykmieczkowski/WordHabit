@@ -15,22 +15,31 @@ import android.support.v4.app.NotificationManagerCompat
  */
 class NotificationProvider {
 
-    val CHANNEL_ID = "main_channel"
+    private val CHANNEL_ID = "main_channel"
     // notification ID is needed to update or remove the notification
-    val GLOBAL_NOTIFICATION_ID = 1
+    private val GLOBAL_NOTIFICATION_ID = 1
 
-    fun createNotificationBuilder(context: Context, onClickIntent: PendingIntent): NotificationCompat.Builder {
-        return NotificationCompat.Builder(context, CHANNEL_ID)
+    fun createNotification(appContext: Context, myNotification: MyNotification) {
+
+        val activityStartIntent = getActivityStartIntent(appContext)
+
+        val notificationBuilder = notificationBuilder(appContext, activityStartIntent, myNotification)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            registerNotificationChannel(appContext)
+        }
+
+        showTheNotification(appContext, notificationBuilder)
+
+    }
+
+    private fun notificationBuilder(appContext: Context, onClickIntent: PendingIntent, myNotification: MyNotification): NotificationCompat.Builder {
+        return NotificationCompat.Builder(appContext, CHANNEL_ID)
                 .setSmallIcon(android.R.drawable.ic_notification_overlay)
-                .setContentTitle("Dog3")
-                .setContentText("Pies3")
+                .setContentTitle(myNotification.title)
+                .setContentText(myNotification.desc_eng)
                 .setStyle(NotificationCompat.BigTextStyle()
-                        .bigText("Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
-                                "Aliquam eget mi pellentesque, ullamcorper dolor eu, sollicitudin ex. " +
-                                "Ut ac velit venenatis, placerat magna in, consequat quam. " +
-                                "Morbi nec eros et justo malesuada vestibulum. Curabitur efficitur sapien " +
-                                "nec nunc porta, ac venenatis libero viverra. Aliquam ac enim ac augue molestie " +
-                                "varius quis id felis. Suspendisse id suscipit arcu. Vestibulum vel rutrum tellus."))
+                        .bigText("Lorem ipsum dolor sit amet, consectr."))
                 // set priority support Android 7.1 and lower (8.0+ set it in Notification Channel)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 // content intent - intent triggered on user click
@@ -48,29 +57,10 @@ class NotificationProvider {
 
     }
 
-    fun createNotification(context: Context) {
-
-        val activityStartIntent = getActivityStartIntent(context)
-
-        val notificationBuilder = NotificationProvider().createNotificationBuilder(context, activityStartIntent)
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            registerNotificationChannel(context)
-        }
-
-        showTheNotification(notificationBuilder, context)
-
-    }
-
-    fun showTheNotification(notificationBuilder: NotificationCompat.Builder, context: Context) {
-        val notificationManager = NotificationManagerCompat.from(context)
-        notificationManager.notify(NotificationProvider().GLOBAL_NOTIFICATION_ID, notificationBuilder.build())
-    }
-
-    fun getActivityStartIntent(context: Context): PendingIntent {
-        val intent = Intent(context, MainActivity::class.java)
+    private fun getActivityStartIntent(appContext: Context): PendingIntent {
+        val intent = Intent(appContext, MainActivity::class.java)
         intent.flags = (Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-        return PendingIntent.getActivity(context, 0, intent, 0)
+        return PendingIntent.getActivity(appContext, 0, intent, 0)
     }
 
     /**
@@ -79,14 +69,19 @@ class NotificationProvider {
      * because NotificationChannel class is new and not in the support Library
      */
     @RequiresApi(Build.VERSION_CODES.O)
-    fun registerNotificationChannel(context: Context) {
+    private fun registerNotificationChannel(appContext: Context) {
 
-        val name = context.getString(R.string.notification_channel_name)
-        val description = context.getString(R.string.notification_channel_description)
+        val name = appContext.getString(R.string.notification_channel_name)
+        val description = appContext.getString(R.string.notification_channel_description)
         val channel = NotificationChannel(NotificationProvider().CHANNEL_ID, name, NotificationManager.IMPORTANCE_DEFAULT)
         channel.description = description
 
-        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager = appContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.createNotificationChannel(channel)
+    }
+
+    private fun showTheNotification(context: Context, notificationBuilder: NotificationCompat.Builder) {
+        val notificationManager = NotificationManagerCompat.from(context)
+        notificationManager.notify(NotificationProvider().GLOBAL_NOTIFICATION_ID, notificationBuilder.build())
     }
 }

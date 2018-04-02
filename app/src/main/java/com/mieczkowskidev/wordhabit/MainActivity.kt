@@ -14,8 +14,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        NotificationProvider().createNotification()
+        NotificationProvider().createNotification(this.applicationContext,
+                MyNotification("House", "A place where you live", "Miejsce gdzie sobie mieszkasz"))
 
-        FirebaseReader().readFromFirebase()
     }
 }

@@ -1,5 +1,6 @@
 package com.mieczkowskidev.wordhabit
 
+import android.content.Context
 import android.util.Log
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
@@ -18,12 +19,14 @@ class MyFirebaseMessageHandler : FirebaseMessagingService() {
 
         if (p0?.data?.isNotEmpty()!!) {
             Log.d(TAG, "Message data paylod ${p0.data}")
+            handleNotification(applicationContext, p0.data)
         }
 
-        if (p0.notification != null) {
-            Log.d(TAG, "Notification body ${p0.notification.body} ")
-        }
+        Log.d(TAG, "Notification body ${p0.notification?.body} ")
 
-        FirebaseReader().readFromFirebase()
     }
+
+    private fun handleNotification(appContext: Context, payload: Map<String, String>) =
+            NotificationProvider().createNotification(appContext,
+                    MyNotification(payload["title"], payload["desc_eng"], payload["desc_pl"]))
 }
