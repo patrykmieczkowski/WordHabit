@@ -2,6 +2,7 @@ package com.mieczkowskidev.wordhabit
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import com.google.firebase.messaging.FirebaseMessaging
 
 class MainActivity : AppCompatActivity() {
 
@@ -14,8 +15,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        NotificationProvider().createNotification(this.applicationContext,
-                MyNotification("House", "A place where you live", "Miejsce gdzie sobie mieszkasz"))
+        FirebaseMessaging.getInstance().subscribeToTopic("english")
+
+//        NotificationProvider().createNotification(this.applicationContext,
+//                MyNotification("House", "A place where you live",
+//                        "Miejsce gdzie sobie mieszkasz", "a", "b"))
 
     }
 }

@@ -15,7 +15,7 @@ class MyFirebaseMessageHandler : FirebaseMessagingService() {
     }
 
     override fun onMessageReceived(p0: RemoteMessage?) {
-        Log.d(TAG, "Message from ${p0?.from}")
+        Log.d(TAG, "w onMessageReceived - Message from ${p0?.from}")
 
         if (p0?.data?.isNotEmpty()!!) {
             Log.d(TAG, "Message data paylod ${p0.data}")
@@ -28,5 +28,7 @@ class MyFirebaseMessageHandler : FirebaseMessagingService() {
 
     private fun handleNotification(appContext: Context, payload: Map<String, String>) =
             NotificationProvider().createNotification(appContext,
-                    MyNotification(payload["title"], payload["desc_eng"], payload["desc_pl"]))
+                    MyNotification(payload["primaryLangWord"], payload["primaryLangDescription"],
+                            payload["secondaryLangWord"], payload["secondaryLangDescription"],
+                            payload["image"]))
 }

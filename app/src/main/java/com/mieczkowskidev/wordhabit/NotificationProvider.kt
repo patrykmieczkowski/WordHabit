@@ -36,10 +36,10 @@ class NotificationProvider {
     private fun notificationBuilder(appContext: Context, onClickIntent: PendingIntent, myNotification: MyNotification): NotificationCompat.Builder {
         return NotificationCompat.Builder(appContext, CHANNEL_ID)
                 .setSmallIcon(android.R.drawable.ic_notification_overlay)
-                .setContentTitle(myNotification.title)
-                .setContentText(myNotification.desc_eng)
-                .setStyle(NotificationCompat.BigTextStyle()
-                        .bigText("Lorem ipsum dolor sit amet, consectr."))
+                .setContentTitle(myNotification.primaryLangWord)
+                .setContentText(myNotification.primaryLangDescription)
+//                .setStyle(NotificationCompat.BigTextStyle()
+//                        .bigText("Lorem ipsum dolor sit amet, consectr."))
                 // set priority support Android 7.1 and lower (8.0+ set it in Notification Channel)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 // content intent - intent triggered on user click
@@ -54,6 +54,7 @@ class NotificationProvider {
 //                .setOnlyAlertOnce(true)
         // system cancel the notification after specified duration elapses
 //                .setTimeoutAfter(2000)
+//                .addAction(android.R.drawable.ic_menu_camera, "Translate", )
 
     }
 
