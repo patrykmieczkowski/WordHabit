@@ -9,11 +9,16 @@ import android.os.Build
 import android.support.annotation.RequiresApi
 import android.support.v4.app.NotificationCompat
 import android.support.v4.app.NotificationManagerCompat
+import android.util.Log
 
 /**
  * Created by Patryk Mieczkowski on 19.03.2018
  */
 class NotificationProvider {
+
+    companion object {
+        private val TAG = NotificationProvider::class.java.simpleName
+    }
 
     private val CHANNEL_ID = "main_channel"
     // notification ID is needed to update or remove the notification
@@ -21,7 +26,7 @@ class NotificationProvider {
 
     fun createNotification(appContext: Context, myNotification: MyNotification) {
 
-        val activityStartIntent = getActivityStartIntent(appContext)
+        val activityStartIntent = getActivityStartIntent(appContext, myNotification)
 
         val notificationBuilder = notificationBuilder(appContext, activityStartIntent, myNotification)
 
@@ -34,6 +39,9 @@ class NotificationProvider {
     }
 
     private fun notificationBuilder(appContext: Context, onClickIntent: PendingIntent, myNotification: MyNotification): NotificationCompat.Builder {
+
+        Log.d(TAG, "notificationBuilder() for $myNotification")
+
         return NotificationCompat.Builder(appContext, CHANNEL_ID)
                 .setSmallIcon(android.R.drawable.ic_notification_overlay)
                 .setContentTitle(myNotification.primaryLangWord)
@@ -58,9 +66,10 @@ class NotificationProvider {
 
     }
 
-    private fun getActivityStartIntent(appContext: Context): PendingIntent {
+    private fun getActivityStartIntent(appContext: Context, myNotification: MyNotification): PendingIntent {
         val intent = Intent(appContext, MainActivity::class.java)
         intent.flags = (Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        intent.putExtra("myNotification", myNotification)
         return PendingIntent.getActivity(appContext, 0, intent, 0)
     }
 

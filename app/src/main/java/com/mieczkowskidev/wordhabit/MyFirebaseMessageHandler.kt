@@ -22,8 +22,6 @@ class MyFirebaseMessageHandler : FirebaseMessagingService() {
             handleNotification(applicationContext, p0.data)
         }
 
-        Log.d(TAG, "Notification body ${p0.notification?.body} ")
-
     }
 
     private fun handleNotification(appContext: Context, payload: Map<String, String>) =

@@ -8,6 +8,7 @@
     tools:context="com.mieczkowskidev.wordhabit.MainActivity">
 
     <TextView
+        android:id="@+id/hello_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Gello in random word world"
