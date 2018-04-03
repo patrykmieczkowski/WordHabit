@@ -2,11 +2,11 @@ package com.mieczkowskidev.wordhabit
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
+import android.util.Log
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
+import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.transition.Transition
 import io.reactivex.Single
 
 /**
@@ -18,15 +18,14 @@ class MyImageManager {
         Glide.with(appContext)
                 .asBitmap()
                 .load(imageUrl)
-                .listener(object : RequestListener<Bitmap> {
-                    override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Bitmap>, isFirstResource: Boolean): Boolean {
-                        it.onError(Exception("bitmap load fail - ${e.toString()}"))
-                        return true
+                .into(object : SimpleTarget<Bitmap>() {
+                    override fun onLoadFailed(errorDrawable: Drawable?) {
+                        it.onError(Exception("bitmap load fail"))
                     }
 
-                    override fun onResourceReady(resource: Bitmap, model: Any?, target: Target<Bitmap>, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                    override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                        Log.d("Notification", "udalo sie pobrac bitmapie, onsuccess")
                         it.onSuccess(resource)
-                        return true
                     }
                 })
 

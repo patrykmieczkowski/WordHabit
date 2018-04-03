@@ -24,6 +24,10 @@ android {
     }
 }
 
+kapt {
+    generateStubs = true
+}
+
 def supportVersion = '27.1.0'
 def daggerVersion = '2.12'
 def rxJavaVersion = '2.1.11'

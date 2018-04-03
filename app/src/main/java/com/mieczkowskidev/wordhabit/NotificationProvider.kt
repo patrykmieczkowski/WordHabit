@@ -108,6 +108,7 @@ class NotificationProvider {
     }
 
     private fun showTheNotification(context: Context, notificationBuilder: NotificationCompat.Builder) {
+        Log.d(TAG, "showTheNotification()")
         val notificationManager = NotificationManagerCompat.from(context)
         notificationManager.notify(NotificationProvider().GLOBAL_NOTIFICATION_ID, notificationBuilder.build())
     }
