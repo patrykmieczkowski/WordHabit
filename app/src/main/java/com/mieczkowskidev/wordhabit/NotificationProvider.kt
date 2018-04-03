@@ -10,6 +10,7 @@ import android.support.annotation.RequiresApi
 import android.support.v4.app.NotificationCompat
 import android.support.v4.app.NotificationManagerCompat
 import android.util.Log
+import io.reactivex.android.schedulers.AndroidSchedulers
 
 /**
  * Created by Patryk Mieczkowski on 19.03.2018
@@ -35,6 +36,10 @@ class NotificationProvider {
         }
 
         showTheNotification(appContext, notificationBuilder)
+
+        if (myNotification.image != null) {
+            downloadNotificationImage(appContext, notificationBuilder, myNotification.image!!)
+        }
 
     }
 
@@ -88,6 +93,18 @@ class NotificationProvider {
 
         val notificationManager = appContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.createNotificationChannel(channel)
+    }
+
+    private fun downloadNotificationImage(appContext: Context, notificationBuilder: NotificationCompat.Builder, imageUrl: String) {
+        Log.d(TAG, "downloading notification image $imageUrl")
+
+        MyImageManager().getBitmapSingle(appContext, imageUrl)
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    notificationBuilder.setSound(null)
+                    notificationBuilder.setLargeIcon(it)
+                    showTheNotification(appContext, notificationBuilder)
+                }, { Log.e(TAG, "error while downloading image", it) })
     }
 
     private fun showTheNotification(context: Context, notificationBuilder: NotificationCompat.Builder) {
