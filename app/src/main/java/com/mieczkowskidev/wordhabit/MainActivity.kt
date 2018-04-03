@@ -31,6 +31,8 @@ class MainActivity : AppCompatActivity() {
 
         val noti = extras?.getSerializable("myNotification") as MyNotification?
 
+        Log.d(TAG, "noti body: $noti")
+
         hello_text.text = noti?.secondaryLangDescription
     }
 }

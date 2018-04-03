@@ -22,14 +22,36 @@ android {
     }
 }
 
+def supportVersion = '27.1.0'
+def daggerVersion = '2.12'
+def rxJavaVersion = '2.1.11'
+def rxKotlinVersion = '2.2.0'
+def rxAndroidVersion = '2.0.2'
+def glideVersion = '4.6.1'
+def firebaseVersion = '12.0.1'
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    implementation 'com.android.support:appcompat-v7:27.1.0'
+    implementation "com.android.support:appcompat-v7:$supportVersion"
+    implementation "com.android.support:support-v4:$supportVersion"
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-    implementation 'com.android.support:support-v4:27.1.0'
-    implementation 'com.google.firebase:firebase-messaging:12.0.1'
-    implementation 'com.google.firebase:firebase-database:12.0.1'
+
+    implementation "com.google.firebase:firebase-messaging:$firebaseVersion"
+    implementation "com.google.firebase:firebase-database:$firebaseVersion"
+
+//    // Dagger dependencies
+//    implementation "com.google.dagger:dagger:$daggerVersion"
+//    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+
+    // RxJava dependencies
+    implementation "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
+    implementation "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
+    implementation "io.reactivex.rxjava2:rxkotlin:$rxKotlinVersion"
+
+    // Image dependencies
+    implementation "com.github.bumptech.glide:glide:$glideVersion"
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
