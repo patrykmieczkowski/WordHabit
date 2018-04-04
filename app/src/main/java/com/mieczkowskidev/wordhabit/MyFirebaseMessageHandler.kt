@@ -27,14 +27,11 @@ class MyFirebaseMessageHandler : FirebaseMessagingService() {
     }
 
     private fun registerBroadcastReceiver(appContext: Context) {
-        Log.d(TAG, "registerBroadcastReceiver() for com.mieczkowskidev.wordhabit.MY_DATA")
-        val filter = IntentFilter()
-        filter.addAction("com.mieczkowskidev.wordhabit.MY_DATA")
-        appContext.registerReceiver(MyBroadcastReceiver(), filter)
+
     }
 
     private fun handleNotification(appContext: Context, payload: Map<String, String>) =
-            NotificationProvider().createNotification(appContext,
+            NotificationProvider().createNotificationAndReceiver(appContext,
                     MyNotification(payload["primaryLangWord"], payload["primaryLangDescription"],
                             payload["secondaryLangWord"], payload["secondaryLangDescription"],
                             payload["image"]), TranslateType.PRIMARY)

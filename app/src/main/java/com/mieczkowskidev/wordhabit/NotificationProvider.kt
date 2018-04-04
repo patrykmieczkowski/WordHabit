@@ -6,12 +6,10 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.net.ConnectivityManager
 import android.os.Build
 import android.support.annotation.RequiresApi
 import android.support.v4.app.NotificationCompat
 import android.support.v4.app.NotificationManagerCompat
-import android.support.v4.content.LocalBroadcastManager
 import android.util.Log
 import io.reactivex.android.schedulers.AndroidSchedulers
 
@@ -24,9 +22,32 @@ class NotificationProvider {
         private val TAG = NotificationProvider::class.java.simpleName
     }
 
+    var brRec = MyBroadcastReceiver()
+
     private val CHANNEL_ID = "main_channel"
     // notification ID is needed to update or remove the notification
     private val GLOBAL_NOTIFICATION_ID = 1
+
+    fun createNotificationAndReceiver(appContext: Context, myNotification: MyNotification, translateType: TranslateType) {
+
+        Log.d(TAG, "registerBroadcastReceiver() for com.mieczkowskidev.wordhabit.MY_DATA")
+
+
+        try {
+            if (brRec != null) {
+                appContext.unregisterReceiver(brRec)
+            }
+        } catch (e: IllegalArgumentException) {
+            Log.i(TAG, "my broadcast receiver is already unregistered")
+        }
+
+
+        val filter = IntentFilter()
+        filter.addAction("com.mieczkowskidev.wordhabit.MY_DATA")
+        appContext.registerReceiver(brRec, filter)
+
+        createNotification(appContext, myNotification, translateType)
+    }
 
     fun createNotification(appContext: Context, myNotification: MyNotification, translateType: TranslateType) {
 
