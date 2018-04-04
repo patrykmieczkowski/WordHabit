@@ -5,10 +5,13 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
+import android.net.ConnectivityManager
 import android.os.Build
 import android.support.annotation.RequiresApi
 import android.support.v4.app.NotificationCompat
 import android.support.v4.app.NotificationManagerCompat
+import android.support.v4.content.LocalBroadcastManager
 import android.util.Log
 import io.reactivex.android.schedulers.AndroidSchedulers
 
@@ -90,7 +93,10 @@ class NotificationProvider {
 
     private fun getTranslatePendingIntent(appContext: Context, myNotification: MyNotification): PendingIntent {
 
-        return getActivityStartIntent(appContext, myNotification)
+        val intent = Intent()
+        intent.action = "com.mieczkowskidev.wordhabit.MY_DATA"
+        intent.putExtra("myNotification", myNotification)
+        return PendingIntent.getBroadcast(appContext, 0, intent, 0)
     }
 
     /**

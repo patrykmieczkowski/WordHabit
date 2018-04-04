@@ -24,8 +24,8 @@ class MainActivity : AppCompatActivity() {
 
         FirebaseMessaging.getInstance().subscribeToTopic("english")
 
-        registerRece()
-        sendData()
+//        registerRece()
+//        sendData()
 
         readFromBundle(intent.extras)
 //        NotificationProvider().createNotification(this.applicationContext,
