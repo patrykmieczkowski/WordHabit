@@ -25,11 +25,12 @@ class NotificationProvider {
     // notification ID is needed to update or remove the notification
     private val GLOBAL_NOTIFICATION_ID = 1
 
-    fun createNotification(appContext: Context, myNotification: MyNotification) {
+    fun createNotification(appContext: Context, myNotification: MyNotification, translateType: TranslateType) {
 
         val activityStartIntent = getActivityStartIntent(appContext, myNotification)
+        val translatePendingIntent = getTranslatePendingIntent(appContext, myNotification)
 
-        val notificationBuilder = notificationBuilder(appContext, activityStartIntent, myNotification)
+        val notificationBuilder = notificationBuilder(appContext, activityStartIntent, translatePendingIntent, myNotification, translateType)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             registerNotificationChannel(appContext)
@@ -43,14 +44,13 @@ class NotificationProvider {
 
     }
 
-    private fun notificationBuilder(appContext: Context, onClickIntent: PendingIntent, myNotification: MyNotification): NotificationCompat.Builder {
+    private fun notificationBuilder(appContext: Context, onClickIntent: PendingIntent, translatePendingIntent: PendingIntent,
+                                    myNotification: MyNotification, translateType: TranslateType): NotificationCompat.Builder {
 
         Log.d(TAG, "notificationBuilder() for $myNotification")
 
-        return NotificationCompat.Builder(appContext, CHANNEL_ID)
+        var builder = NotificationCompat.Builder(appContext, CHANNEL_ID)
                 .setSmallIcon(android.R.drawable.ic_notification_overlay)
-                .setContentTitle(myNotification.primaryLangWord)
-                .setContentText(myNotification.primaryLangDescription)
 //                .setStyle(NotificationCompat.BigTextStyle()
 //                        .bigText("Lorem ipsum dolor sit amet, consectr."))
                 // set priority support Android 7.1 and lower (8.0+ set it in Notification Channel)
@@ -63,11 +63,21 @@ class NotificationProvider {
 //                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                 // lock screen visibility (public, secret and default private)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-        // when true the notification interups (sound, vibration) only for the first time, not for updates
+                // when true the notification interups (sound, vibration) only for the first time, not for updates
 //                .setOnlyAlertOnce(true)
-        // system cancel the notification after specified duration elapses
+                // system cancel the notification after specified duration elapses
 //                .setTimeoutAfter(2000)
-//                .addAction(android.R.drawable.ic_menu_camera, "Translate", )
+                .addAction(android.R.drawable.ic_menu_camera, "Translate", translatePendingIntent)
+
+        if (translateType == TranslateType.PRIMARY) {
+            builder.setContentTitle(myNotification.primaryLangWord)
+                    .setContentText(myNotification.primaryLangDescription)
+        } else {
+            builder.setContentTitle(myNotification.secondaryLangWord)
+                    .setContentText(myNotification.secondaryLangDescription)
+        }
+
+        return builder
 
     }
 
@@ -76,6 +86,11 @@ class NotificationProvider {
         intent.flags = (Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         intent.putExtra("myNotification", myNotification)
         return PendingIntent.getActivity(appContext, 0, intent, 0)
+    }
+
+    private fun getTranslatePendingIntent(appContext: Context, myNotification: MyNotification): PendingIntent {
+
+        return getActivityStartIntent(appContext, myNotification)
     }
 
     /**
@@ -103,6 +118,9 @@ class NotificationProvider {
                 .subscribe({
                     notificationBuilder.setSound(null)
                     notificationBuilder.setLargeIcon(it)
+//                    notificationBuilder.setStyle(NotificationCompat.BigPictureStyle()
+//                            .bigPicture(it)
+//                            .bigLargeIcon(null))
                     showTheNotification(appContext, notificationBuilder)
                 }, { Log.e(TAG, "error while downloading image", it) })
     }

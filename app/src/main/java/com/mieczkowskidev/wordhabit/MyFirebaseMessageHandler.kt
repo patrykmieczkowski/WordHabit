@@ -28,5 +28,5 @@ class MyFirebaseMessageHandler : FirebaseMessagingService() {
             NotificationProvider().createNotification(appContext,
                     MyNotification(payload["primaryLangWord"], payload["primaryLangDescription"],
                             payload["secondaryLangWord"], payload["secondaryLangDescription"],
-                            payload["image"]))
+                            payload["image"]), TranslateType.PRIMARY)
 }
