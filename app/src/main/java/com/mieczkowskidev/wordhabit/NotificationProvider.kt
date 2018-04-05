@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Build
+import android.os.Bundle
 import android.support.annotation.RequiresApi
 import android.support.v4.app.NotificationCompat
 import android.support.v4.app.NotificationManagerCompat
@@ -55,7 +56,7 @@ class NotificationProvider {
     fun createNotification(appContext: Context, myNotification: MyNotification, translateType: TranslateType) {
 
         val activityStartIntent = getActivityStartIntent(appContext, myNotification)
-        val translatePendingIntent = getTranslatePendingIntent(appContext, myNotification)
+        val translatePendingIntent = getTranslatePendingIntent(appContext, myNotification, translateType)
 
         val notificationBuilder = notificationBuilder(appContext, activityStartIntent, translatePendingIntent, myNotification, translateType)
 
@@ -74,7 +75,7 @@ class NotificationProvider {
     private fun notificationBuilder(appContext: Context, onClickIntent: PendingIntent, translatePendingIntent: PendingIntent,
                                     myNotification: MyNotification, translateType: TranslateType): NotificationCompat.Builder {
 
-        Log.d(TAG, "notificationBuilder() for $myNotification")
+        Log.d(TAG, "notificationBuilder() translation $translateType for $myNotification")
 
         var builder = NotificationCompat.Builder(appContext, CHANNEL_ID)
                 .setSmallIcon(android.R.drawable.ic_notification_overlay)
@@ -90,18 +91,21 @@ class NotificationProvider {
 //                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                 // lock screen visibility (public, secret and default private)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                // when true the notification interups (sound, vibration) only for the first time, not for updates
+        // when true the notification interups (sound, vibration) only for the first time, not for updates
 //                .setOnlyAlertOnce(true)
-                // system cancel the notification after specified duration elapses
+        // system cancel the notification after specified duration elapses
 //                .setTimeoutAfter(2000)
-                .addAction(android.R.drawable.ic_menu_camera, "Translate", translatePendingIntent)
+
 
         if (translateType == TranslateType.PRIMARY) {
             builder.setContentTitle(myNotification.primaryLangWord)
                     .setContentText(myNotification.primaryLangDescription)
+                    .addAction(android.R.drawable.ic_menu_camera, "TRANSLATION", translatePendingIntent)
+
         } else {
             builder.setContentTitle(myNotification.secondaryLangWord)
                     .setContentText(myNotification.secondaryLangDescription)
+                    .addAction(android.R.drawable.ic_menu_camera, "ORIGINAL", translatePendingIntent)
         }
 
         return builder
@@ -115,11 +119,14 @@ class NotificationProvider {
         return PendingIntent.getActivity(appContext, 0, intent, 0)
     }
 
-    private fun getTranslatePendingIntent(appContext: Context, myNotification: MyNotification): PendingIntent {
+    private fun getTranslatePendingIntent(appContext: Context, myNotification: MyNotification, translateType: TranslateType): PendingIntent {
 
         val intent = Intent()
         intent.action = "com.mieczkowskidev.wordhabit.MY_DATA"
-        intent.putExtra("myNotification", myNotification)
+        val bundle = Bundle()
+        bundle.putSerializable("myNotification", myNotification)
+        bundle.putString("translate", translateType.toString())
+        intent.putExtras(bundle)
         return PendingIntent.getBroadcast(appContext, 0, intent, 0)
     }
 
