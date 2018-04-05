@@ -22,7 +22,6 @@ class NotificationProvider {
         private val TAG = NotificationProvider::class.java.simpleName
     }
 
-    var brRec = MyBroadcastReceiver()
 
     private val CHANNEL_ID = "main_channel"
     // notification ID is needed to update or remove the notification
@@ -32,19 +31,23 @@ class NotificationProvider {
 
         Log.d(TAG, "registerBroadcastReceiver() for com.mieczkowskidev.wordhabit.MY_DATA")
 
+//
+//        try {
+//            if (App.receiver != null) {
+//                appContext.unregisterReceiver(App.receiver)
+//            }
+//        } catch (e: IllegalArgumentException) {
+//            Log.i(TAG, "my broadcast receiver is already unregistered")
+//        }
 
-        try {
-            if (brRec != null) {
-                appContext.unregisterReceiver(brRec)
-            }
-        } catch (e: IllegalArgumentException) {
-            Log.i(TAG, "my broadcast receiver is already unregistered")
+        if (!App.isRegistered) {
+            Log.d(TAG, "registering receiver MY_DATA")
+            val filter = IntentFilter()
+            filter.addAction("com.mieczkowskidev.wordhabit.MY_DATA")
+            appContext.registerReceiver(App.receiver, filter)
+            App.isRegistered = true
         }
 
-
-        val filter = IntentFilter()
-        filter.addAction("com.mieczkowskidev.wordhabit.MY_DATA")
-        appContext.registerReceiver(brRec, filter)
 
         createNotification(appContext, myNotification, translateType)
     }

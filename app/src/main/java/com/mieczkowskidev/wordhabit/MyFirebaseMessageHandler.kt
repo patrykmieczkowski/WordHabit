@@ -20,13 +20,8 @@ class MyFirebaseMessageHandler : FirebaseMessagingService() {
 
         if (p0?.data?.isNotEmpty()!!) {
             Log.d(TAG, "Message data paylod ${p0.data}")
-            registerBroadcastReceiver(applicationContext)
             handleNotification(applicationContext, p0.data)
         }
-
-    }
-
-    private fun registerBroadcastReceiver(appContext: Context) {
 
     }
 
