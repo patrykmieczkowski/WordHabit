@@ -7,7 +7,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Build
-import android.os.Bundle
 import android.support.annotation.RequiresApi
 import android.support.v4.app.NotificationCompat
 import android.support.v4.app.NotificationManagerCompat
@@ -56,9 +55,10 @@ class NotificationProvider {
     fun createNotification(appContext: Context, myNotification: MyNotification) {
 
         val activityStartIntent = getActivityStartIntent(appContext, myNotification)
-        val translatePendingIntent = getTranslatePendingIntent(appContext, myNotification)
+        val translatePrimPendingIntent = getTranslatePrimPendingIntent(appContext, myNotification)
+        val translateSeconPendingIntent = getTranslateSeconPendingIntent(appContext, myNotification)
 
-        val notificationBuilder = notificationBuilder(appContext, activityStartIntent, translatePendingIntent, myNotification)
+        val notificationBuilder = notificationBuilder(appContext, activityStartIntent, translatePrimPendingIntent, translateSeconPendingIntent, myNotification)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             registerNotificationChannel(appContext)
@@ -72,7 +72,8 @@ class NotificationProvider {
 
     }
 
-    private fun notificationBuilder(appContext: Context, onClickIntent: PendingIntent, translatePendingIntent: PendingIntent,
+    private fun notificationBuilder(appContext: Context, onClickIntent: PendingIntent, translatePrimPendingIntent: PendingIntent,
+                                    translateSeconPendingIntent: PendingIntent,
                                     myNotification: MyNotification): NotificationCompat.Builder {
 
         Log.d(TAG, "notificationBuilder() translation ${myNotification.translateType} for $myNotification")
@@ -100,12 +101,12 @@ class NotificationProvider {
         if (myNotification.translateType == "primary") {
             builder.setContentTitle(myNotification.primaryLangWord)
                     .setContentText(myNotification.primaryLangDescription)
-                    .addAction(android.R.drawable.ic_menu_camera, "TRANSLATION", translatePendingIntent)
+                    .addAction(android.R.drawable.ic_menu_camera, "TRANSLATION", translateSeconPendingIntent)
 
         } else {
             builder.setContentTitle(myNotification.secondaryLangWord)
                     .setContentText(myNotification.secondaryLangDescription)
-                    .addAction(android.R.drawable.ic_menu_camera, "ORIGINAL", translatePendingIntent)
+                    .addAction(android.R.drawable.ic_menu_camera, "ORIGINAL", translatePrimPendingIntent)
         }
 
         return builder
@@ -119,14 +120,18 @@ class NotificationProvider {
         return PendingIntent.getActivity(appContext, 0, intent, 0)
     }
 
-    private fun getTranslatePendingIntent(appContext: Context, myNotification: MyNotification): PendingIntent {
+    private fun getTranslatePrimPendingIntent(appContext: Context, myNotification: MyNotification): PendingIntent {
 
-        if (myNotification.translateType == "primary") {
-            myNotification.translateType = "secondary"
-        } else {
-            myNotification.translateType = "primary"
-        }
+        myNotification.translateType = "secondary"
+        val intent = Intent()
+        intent.action = "com.mieczkowskidev.wordhabit.MY_DATA"
+        intent.putExtra("myNotification", myNotification)
+        return PendingIntent.getBroadcast(appContext, 0, intent, 0)
+    }
 
+    private fun getTranslateSeconPendingIntent(appContext: Context, myNotification: MyNotification): PendingIntent {
+
+        myNotification.translateType = "primary"
         val intent = Intent()
         intent.action = "com.mieczkowskidev.wordhabit.MY_DATA"
         intent.putExtra("myNotification", myNotification)

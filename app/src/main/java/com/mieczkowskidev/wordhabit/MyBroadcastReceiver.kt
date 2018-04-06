@@ -25,13 +25,13 @@ class MyBroadcastReceiver : BroadcastReceiver() {
 
             Log.d(TAG, "MyBroadcastReceiver ${notificationData?.translateType}")
 
-//            val translateType = if (extrasTranslateType == TranslateType.PRIMARY) {
-//                TranslateType.SECONDARY
-//            } else {
-//                TranslateType.PRIMARY
-//            }
-
             if (notificationData != null) {
+//                if (notificationData.translateType == "primary") {
+//                    notificationData.translateType = "secondary"
+//                } else if (notificationData.translateType == "secondary") {
+//                    notificationData.translateType = "primary"
+//                }
+
                 NotificationProvider().createNotification(appContext, notificationData)
             }
         }
