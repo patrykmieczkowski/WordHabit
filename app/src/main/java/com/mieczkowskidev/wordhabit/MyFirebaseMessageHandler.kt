@@ -1,7 +1,6 @@
 package com.mieczkowskidev.wordhabit
 
 import android.content.Context
-import android.content.IntentFilter
 import android.util.Log
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
@@ -29,5 +28,5 @@ class MyFirebaseMessageHandler : FirebaseMessagingService() {
             NotificationProvider().createNotificationAndReceiver(appContext,
                     MyNotification(payload["primaryLangWord"], payload["primaryLangDescription"],
                             payload["secondaryLangWord"], payload["secondaryLangDescription"],
-                            payload["image"]), TranslateType.PRIMARY)
+                            payload["image"], "primary"))
 }

@@ -22,9 +22,8 @@ class MyBroadcastReceiver : BroadcastReceiver() {
 
         if (bundle != null) {
             val notificationData = bundle.getSerializable("myNotification") as MyNotification?
-            val extrasTranslateType = bundle.getString("translate") as String?
 
-            Log.d(TAG, "MyBroadcastReceiver $extrasTranslateType")
+            Log.d(TAG, "MyBroadcastReceiver ${notificationData?.translateType}")
 
 //            val translateType = if (extrasTranslateType == TranslateType.PRIMARY) {
 //                TranslateType.SECONDARY
@@ -33,7 +32,7 @@ class MyBroadcastReceiver : BroadcastReceiver() {
 //            }
 
             if (notificationData != null) {
-                NotificationProvider().createNotification(appContext, notificationData, TranslateType.SECONDARY)
+                NotificationProvider().createNotification(appContext, notificationData)
             }
         }
     }
