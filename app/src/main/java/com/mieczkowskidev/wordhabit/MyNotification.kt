@@ -7,4 +7,4 @@ import java.io.Serializable
  */
 data class MyNotification(var primaryLangWord: String?, var primaryLangDescription: String?,
                           var secondaryLangWord: String?, var secondaryLangDescription: String?,
-                          var image: String?) : Serializable
+                          var image: String?, var translateType: String) : Serializable

@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun sendData() {
         send_button.setOnClickListener { view ->
-            val notiData = MyNotification("Bin", "A place where you put trash", "Kosz", "Miejsca na smieci", null)
+            val notiData = MyNotification("Bin", "A place where you put trash", "Kosz", "Miejsca na smieci", null, "primary")
             val intent = Intent()
             intent.action = "com.mieczkowskidev.wordhabit.MY_DATA"
             intent.putExtra("myNotification", notiData)
