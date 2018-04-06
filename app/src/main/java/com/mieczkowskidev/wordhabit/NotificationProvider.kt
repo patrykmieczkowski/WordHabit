@@ -101,12 +101,12 @@ class NotificationProvider {
         if (myNotification.translateType == "primary") {
             builder.setContentTitle(myNotification.primaryLangWord)
                     .setContentText(myNotification.primaryLangDescription)
-                    .addAction(android.R.drawable.ic_menu_camera, "TRANSLATION", translateSeconPendingIntent)
+                    .addAction(R.drawable.ic_translate_black_24dp, "TRANSLATION", translateSeconPendingIntent)
 
         } else {
             builder.setContentTitle(myNotification.secondaryLangWord)
                     .setContentText(myNotification.secondaryLangDescription)
-                    .addAction(android.R.drawable.ic_menu_camera, "ORIGINAL", translatePrimPendingIntent)
+                    .addAction(R.drawable.ic_translate_black_24dp, "ORIGINAL", translatePrimPendingIntent)
         }
 
         return builder
