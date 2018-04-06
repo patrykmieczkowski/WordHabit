@@ -31,6 +31,13 @@ class MyBroadcastReceiver : BroadcastReceiver() {
 //                } else if (notificationData.translateType == "secondary") {
 //                    notificationData.translateType = "primary"
 //                }
+                if (App.clicked == "TRANSLATION"){
+                    notificationData.translateType = "secondary"
+                } else {
+                    notificationData.translateType = "primary"
+                }
+
+                Log.d(TAG, "after changing ${notificationData.translateType}")
 
                 NotificationProvider().createNotification(appContext, notificationData)
             }

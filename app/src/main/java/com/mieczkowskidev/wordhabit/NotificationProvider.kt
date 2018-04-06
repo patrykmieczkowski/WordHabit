@@ -55,10 +55,8 @@ class NotificationProvider {
     fun createNotification(appContext: Context, myNotification: MyNotification) {
 
         val activityStartIntent = getActivityStartIntent(appContext, myNotification)
-        val translatePrimPendingIntent = getTranslatePrimPendingIntent(appContext, myNotification)
-        val translateSeconPendingIntent = getTranslateSeconPendingIntent(appContext, myNotification)
 
-        val notificationBuilder = notificationBuilder(appContext, activityStartIntent, translatePrimPendingIntent, translateSeconPendingIntent, myNotification)
+        val notificationBuilder = notificationBuilder(appContext, activityStartIntent, myNotification)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             registerNotificationChannel(appContext)
@@ -72,8 +70,7 @@ class NotificationProvider {
 
     }
 
-    private fun notificationBuilder(appContext: Context, onClickIntent: PendingIntent, translatePrimPendingIntent: PendingIntent,
-                                    translateSeconPendingIntent: PendingIntent,
+    private fun notificationBuilder(appContext: Context, onClickIntent: PendingIntent,
                                     myNotification: MyNotification): NotificationCompat.Builder {
 
         Log.d(TAG, "notificationBuilder() translation ${myNotification.translateType} for $myNotification")
@@ -99,11 +96,21 @@ class NotificationProvider {
 
 
         if (myNotification.translateType == "primary") {
+            Log.d(TAG, "case for primary language, translating to secondary")
+            val translateSeconPendingIntent = getTranslateSeconPendingIntent(appContext, myNotification)
+
+            App.clicked = "TRANSLATION"
+
             builder.setContentTitle(myNotification.primaryLangWord)
                     .setContentText(myNotification.primaryLangDescription)
                     .addAction(android.R.drawable.ic_menu_camera, "TRANSLATION", translateSeconPendingIntent)
 
-        } else {
+        } else if (myNotification.translateType == "secondary") {
+            Log.d(TAG, "case for secondary language, translating to primary")
+            val translatePrimPendingIntent = getTranslatePrimPendingIntent(appContext, myNotification)
+
+            App.clicked = "ORIGINAL"
+
             builder.setContentTitle(myNotification.secondaryLangWord)
                     .setContentText(myNotification.secondaryLangDescription)
                     .addAction(android.R.drawable.ic_menu_camera, "ORIGINAL", translatePrimPendingIntent)
@@ -122,19 +129,21 @@ class NotificationProvider {
 
     private fun getTranslatePrimPendingIntent(appContext: Context, myNotification: MyNotification): PendingIntent {
 
-        myNotification.translateType = "secondary"
+        var noty1 = myNotification
+        noty1.translateType = "primary"
         val intent = Intent()
         intent.action = "com.mieczkowskidev.wordhabit.MY_DATA"
-        intent.putExtra("myNotification", myNotification)
+        intent.putExtra("myNotification", noty1)
         return PendingIntent.getBroadcast(appContext, 0, intent, 0)
     }
 
     private fun getTranslateSeconPendingIntent(appContext: Context, myNotification: MyNotification): PendingIntent {
 
-        myNotification.translateType = "primary"
+        var noty2 = myNotification
+        noty2.translateType = "secondary"
         val intent = Intent()
         intent.action = "com.mieczkowskidev.wordhabit.MY_DATA"
-        intent.putExtra("myNotification", myNotification)
+        intent.putExtra("myNotification", noty2)
         return PendingIntent.getBroadcast(appContext, 0, intent, 0)
     }
 
