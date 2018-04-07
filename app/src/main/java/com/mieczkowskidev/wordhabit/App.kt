@@ -12,8 +12,7 @@ class App : Application() {
         private val TAG = App::class.java.simpleName
         var receiver = MyBroadcastReceiver()
         var isRegistered = false
-        var currentLanguage = "primary"
-        var previousLanguage = ""
+        var clicked = ""
     }
 
     override fun onCreate() {
