@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">Word Habit</string>
 
+    <!-- main activity -->
+    <string name="subscribe_topic_info">Subscribed to English</string>
+    <string name="no_data_info">No language notification yet, please wait until 10.00 AM to get one </string>
+
     <!-- notification user UI -->
     <string name="notification_primary_button">TRANSLATE</string>
     <string name="notification_secondary_button">ORIGINAL</string>

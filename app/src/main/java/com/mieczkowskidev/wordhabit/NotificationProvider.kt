@@ -71,7 +71,7 @@ class NotificationProvider {
         Log.d(TAG, "notificationBuilder() for $myNotification")
 
         val builder = NotificationCompat.Builder(appContext, CHANNEL_ID)
-                .setSmallIcon(android.R.drawable.ic_notification_overlay)
+                .setSmallIcon(R.drawable.ic_translate_black_24dp)
 //                .setStyle(NotificationCompat.BigTextStyle()
 //                        .bigText("Lorem ipsum dolor sit amet, consectr."))
                 // set priority support Android 7.1 and lower (8.0+ set it in Notification Channel)
@@ -164,5 +164,10 @@ class NotificationProvider {
         Log.d(TAG, "showTheNotification() on UI")
         val notificationManager = NotificationManagerCompat.from(context)
         notificationManager.notify(NotificationProvider().GLOBAL_NOTIFICATION_ID, notificationBuilder.build())
+    }
+
+    fun hideNotification(context: Context) {
+        val notificationManager = NotificationManagerCompat.from(context)
+        notificationManager.cancel(NotificationProvider().GLOBAL_NOTIFICATION_ID)
     }
 }

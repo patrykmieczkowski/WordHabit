@@ -1,11 +1,10 @@
 package com.mieczkowskidev.wordhabit
 
-import android.content.IntentFilter
-import android.net.ConnectivityManager
 import android.os.Bundle
-import android.support.v4.content.LocalBroadcastManager
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
+import android.view.MotionEvent
+import android.view.View
+import com.bumptech.glide.Glide
 import com.google.firebase.messaging.FirebaseMessaging
 import com.mieczkowskidev.wordhabit.model.MyNotification
 import kotlinx.android.synthetic.main.activity_main.*
@@ -23,43 +22,44 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         FirebaseMessaging.getInstance().subscribeToTopic("english")
-
-//        registerRece()
-//        sendData()
+        NotificationProvider().hideNotification(this)
 
         readFromBundle(intent.extras)
-//        NotificationProvider().createNotification(this.applicationContext,
-//                MyNotification("House", "A place where you live",
-//                        "Mieaajsce gdzie sobie mieszkasz", "a", "b"))
-
-    }
-
-//    private fun sendData() {
-//        send_button.setOnClickListener { view ->
-//            val notiData = MyNotification("Bin", "A place where you put trash", "Kosz", "Miejsca na smieci", null, "primary")
-//            val intent = Intent()
-//            intent.action = "com.mieczkowskidev.wordhabit.MY_DATA"
-//            intent.putExtra("myNotification", notiData)
-//            LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
-//
-//        }
-//
-//    }
-
-    private fun registerRece() {
-        val recei = MyBroadcastReceiver()
-        val filter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
-        filter.addAction("com.mieczkowskidev.wordhabit.MY_DATA")
-        LocalBroadcastManager.getInstance(this).registerReceiver(recei, filter)
     }
 
     private fun readFromBundle(extras: Bundle?) {
-        Log.d(TAG, "reading from bundle")
 
-        val noti = extras?.getSerializable("myNotification") as MyNotification?
+        val myNotification = extras?.getParcelable(NotificationConfig.NOTIFICATION_BUNDLE_TAG) as MyNotification?
 
-        Log.d(TAG, "noti body: $noti")
+        if (myNotification != null) {
+            setViews(myNotification)
+        } else {
+            empty_layout.visibility = View.VISIBLE
+        }
+    }
 
-        hello_text.text = noti?.secondaryLangDescription
+    private fun setViews(myNotification: MyNotification) {
+        notification_layout.visibility = View.VISIBLE
+
+        Glide.with(this).load(myNotification.image).into(image)
+
+        title_language_text.text = myNotification.primaryLangWord
+        desc_language_text.text = myNotification.primaryLangDescription
+
+        change_lang_button.setOnTouchListener { view, motionEvent ->
+            when {
+                motionEvent.action == MotionEvent.ACTION_DOWN -> {
+                    title_language_text.text = myNotification.secondaryLangWord
+                    desc_language_text.text = myNotification.secondaryLangDescription
+                    true
+                }
+                motionEvent.action == MotionEvent.ACTION_UP -> {
+                    title_language_text.text = myNotification.primaryLangWord
+                    desc_language_text.text = myNotification.primaryLangDescription
+                    true
+                }
+                else -> false
+            }
+        }
     }
 }
