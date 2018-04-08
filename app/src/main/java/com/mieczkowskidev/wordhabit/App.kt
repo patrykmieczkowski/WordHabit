@@ -2,6 +2,7 @@ package com.mieczkowskidev.wordhabit
 
 import android.app.Application
 import android.util.Log
+import com.mieczkowskidev.wordhabit.model.TranslateType
 
 /**
  * Created by Patryk Mieczkowski on 05.04.2018
@@ -12,7 +13,7 @@ class App : Application() {
         private val TAG = App::class.java.simpleName
         var receiver = MyBroadcastReceiver()
         var isRegistered = false
-        var clicked = ""
+        var state: TranslateType? = null
     }
 
     override fun onCreate() {

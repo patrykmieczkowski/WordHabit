@@ -1,6 +1,5 @@
 package com.mieczkowskidev.wordhabit
 
-import android.content.Intent
 import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.os.Bundle
@@ -8,6 +7,7 @@ import android.support.v4.content.LocalBroadcastManager
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import com.google.firebase.messaging.FirebaseMessaging
+import com.mieczkowskidev.wordhabit.model.MyNotification
 import kotlinx.android.synthetic.main.activity_main.*
 
 

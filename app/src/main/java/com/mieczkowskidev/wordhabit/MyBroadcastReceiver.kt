@@ -5,6 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import com.mieczkowskidev.wordhabit.model.MyNotification
+import com.mieczkowskidev.wordhabit.model.TranslateType
 
 /**
  * Created by Patryk Mieczkowski on 04.04.2018
@@ -16,28 +18,21 @@ class MyBroadcastReceiver : BroadcastReceiver() {
     }
 
     override fun onReceive(appContext: Context, intent: Intent) {
-        Log.d(TAG, "MyBroadcastReceiver on Receive data ()")
 
         val bundle: Bundle? = intent.extras
 
         if (bundle != null) {
-            val notificationData = bundle.getSerializable("myNotification") as MyNotification?
-
-            Log.d(TAG, "MyBroadcastReceiver ${notificationData?.translateType}")
+            val notificationData = bundle.getParcelable(NotificationConfig.NOTIFICATION_BUNDLE_TAG) as MyNotification?
 
             if (notificationData != null) {
-//                if (notificationData.translateType == "primary") {
-//                    notificationData.translateType = "secondary"
-//                } else if (notificationData.translateType == "secondary") {
-//                    notificationData.translateType = "primary"
-//                }
-                if (App.clicked == "TRANSLATION"){
-                    notificationData.translateType = "secondary"
+
+                if (App.state == TranslateType.PRIMARY) {
+                    notificationData.translateType = TranslateType.SECONDARY
                 } else {
-                    notificationData.translateType = "primary"
+                    notificationData.translateType = TranslateType.PRIMARY
                 }
 
-                Log.d(TAG, "after changing ${notificationData.translateType}")
+                Log.d(TAG, "MyBroadcastReceiver receive data, translating to ${notificationData.translateType}")
 
                 NotificationProvider().createNotification(appContext, notificationData)
             }

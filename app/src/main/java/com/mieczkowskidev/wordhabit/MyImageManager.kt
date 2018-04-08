@@ -24,7 +24,7 @@ class MyImageManager {
                     }
 
                     override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                        Log.d("Notification", "udalo sie pobrac bitmapie, onsuccess")
+                        Log.d(NotificationProvider.TAG, "bitmap download success - refreshing notification soon")
                         it.onSuccess(resource)
                     }
                 })

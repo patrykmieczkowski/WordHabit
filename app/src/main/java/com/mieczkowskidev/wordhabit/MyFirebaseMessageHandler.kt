@@ -4,6 +4,8 @@ import android.content.Context
 import android.util.Log
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import com.mieczkowskidev.wordhabit.model.MyNotification
+import com.mieczkowskidev.wordhabit.model.TranslateType
 
 /**
  * Created by Patryk Mieczkowski on 18.03.2018
@@ -15,10 +17,10 @@ class MyFirebaseMessageHandler : FirebaseMessagingService() {
     }
 
     override fun onMessageReceived(p0: RemoteMessage?) {
-        Log.d(TAG, "w onMessageReceived - Message from ${p0?.from}")
+        Log.d(TAG, "onMessageReceived() - Message from topic ${p0?.from}")
 
         if (p0?.data?.isNotEmpty()!!) {
-            Log.d(TAG, "Message data paylod ${p0.data}")
+            Log.d(TAG, "onMessageReceived() message data payload ${p0.data}")
             handleNotification(applicationContext, p0.data)
         }
 
@@ -28,5 +30,5 @@ class MyFirebaseMessageHandler : FirebaseMessagingService() {
             NotificationProvider().createNotificationAndReceiver(appContext,
                     MyNotification(payload["primaryLangWord"], payload["primaryLangDescription"],
                             payload["secondaryLangWord"], payload["secondaryLangDescription"],
-                            payload["image"], "primary"))
+                            payload["image"], TranslateType.PRIMARY))
 }
