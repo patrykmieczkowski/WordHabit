@@ -89,6 +89,8 @@ class NotificationProvider {
         // system cancel the notification after specified duration elapses
 //                .setTimeoutAfter(2000)
 
+        //todo set set style for more text while > more than x characters
+
 
         if (myNotification.translateType == TranslateType.PRIMARY) {
             Log.d(TAG, "case for primary language, translating to secondary")
