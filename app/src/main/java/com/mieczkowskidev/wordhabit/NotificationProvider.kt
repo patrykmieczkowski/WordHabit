@@ -24,25 +24,40 @@ class NotificationProvider {
         val TAG = NotificationProvider::class.java.simpleName
     }
 
+    var receiver = MyBroadcastReceiver()
+
     private val CHANNEL_ID = "main_channel"
     // notification ID is needed to update or remove the notification
     private val GLOBAL_NOTIFICATION_ID = 1
 
     fun createNotificationAndReceiver(appContext: Context, myNotification: MyNotification) {
 
-        if (!App.isRegistered) {
-            registerBroadcastReceiver(appContext)
-        }
+//        if (!App.isRegistered) {
+        registerBroadcastReceiver(appContext)
+//        }
 
         createNotification(appContext, myNotification)
     }
 
     private fun registerBroadcastReceiver(appContext: Context) {
+
+        if (receiver != null) {
+            try {
+                appContext.unregisterReceiver(receiver)
+//                App.isRegistered = false
+
+            } catch (e: IllegalArgumentException) {
+                Log.i(TAG, "my broadcast receiver is already unregistered")
+            }
+        } else {
+            receiver = MyBroadcastReceiver()
+        }
+
         Log.d(TAG, "registerBroadcastReceiver() for ${NotificationConfig.NOTIFICATION_INTENT_ACTION}")
         val filter = IntentFilter()
         filter.addAction(NotificationConfig.NOTIFICATION_INTENT_ACTION)
-        appContext.registerReceiver(App.receiver, filter)
-        App.isRegistered = true
+        appContext.registerReceiver(receiver, filter)
+//        App.isRegistered = true
     }
 
     fun createNotification(appContext: Context, myNotification: MyNotification) {
