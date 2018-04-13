@@ -18,5 +18,6 @@ class MyFirebaseTokenHandler : FirebaseInstanceIdService() {
         val currentToken = FirebaseInstanceId.getInstance().token
 
         Log.d(TAG, "FCM Token: $currentToken")
+
     }
 }
