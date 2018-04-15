@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity
 import android.view.MotionEvent
 import android.view.View
 import com.bumptech.glide.Glide
-import com.google.firebase.messaging.FirebaseMessaging
 import com.mieczkowskidev.wordhabit.model.MyNotification
 import com.mieczkowskidev.wordhabit.utils.BuildTypeHelper
 import com.mieczkowskidev.wordhabit.utils.visible
@@ -23,11 +22,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        BuildTypeHelper.onlyDebug().let { developer_version_info.visible() }
+        showDeveloperTools()
 
-        NotificationProvider().hideNotification(this)
+//        NotificationProvider().hideNotification(this)
 
         readFromBundle(intent.extras)
+    }
+
+    private fun showDeveloperTools() {
+        BuildTypeHelper.onlyDebug().let { developer_version_info.visible() }
+
     }
 
     private fun readFromBundle(extras: Bundle?) {

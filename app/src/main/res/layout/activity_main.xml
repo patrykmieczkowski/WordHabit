@@ -15,7 +15,7 @@
         android:text="@string/developer_version_info"
         android:textStyle="bold"
         android:visibility="gone"
-        tools:visibility="gone"/>
+        tools:visibility="visible"/>
 
     <RelativeLayout
         android:id="@+id/notification_layout"
