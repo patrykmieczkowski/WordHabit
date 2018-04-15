@@ -11,8 +11,6 @@ class App : Application() {
 
     companion object {
         private val TAG = App::class.java.simpleName
-//        var receiver = MyBroadcastReceiver()
-//        var isRegistered = false
         var state: TranslateType? = null
     }
 
@@ -22,19 +20,4 @@ class App : Application() {
         Log.d(TAG, "Creating app")
     }
 
-    override fun onTerminate() {
-        super.onTerminate()
-
-//        if (!isRegistered) {
-//            try {
-//                if (App.receiver != null) {
-//                    unregisterReceiver(App.receiver)
-//                    isRegistered = false
-//                }
-//            } catch (e: IllegalArgumentException) {
-//                Log.i(TAG, "my broadcast receiver is already unregistered")
-//            }
-//        }
-//        Log.d(TAG, "Terminating an app")
-    }
 }

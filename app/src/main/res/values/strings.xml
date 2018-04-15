@@ -12,4 +12,7 @@
     <!-- notification android O + -->
     <string name="notification_channel_name">Main</string>
     <string name="notification_channel_description">Main Channel For Notification</string>
+
+    <!-- debug strings -->
+    <string name="developer_version_info" translatable="false">This is developer version</string>
 </resources>

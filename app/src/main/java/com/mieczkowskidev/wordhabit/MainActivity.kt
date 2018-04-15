@@ -7,6 +7,8 @@ import android.view.View
 import com.bumptech.glide.Glide
 import com.google.firebase.messaging.FirebaseMessaging
 import com.mieczkowskidev.wordhabit.model.MyNotification
+import com.mieczkowskidev.wordhabit.utils.BuildTypeHelper
+import com.mieczkowskidev.wordhabit.utils.visible
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -21,7 +23,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        FirebaseMessaging.getInstance().subscribeToTopic("english")
+        BuildTypeHelper.onlyDebug().let { developer_version_info.visible() }
+
         NotificationProvider().hideNotification(this)
 
         readFromBundle(intent.extras)
