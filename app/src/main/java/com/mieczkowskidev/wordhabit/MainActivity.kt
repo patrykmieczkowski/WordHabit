@@ -2,6 +2,8 @@ package com.mieczkowskidev.wordhabit
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.Menu
+import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
 import com.bumptech.glide.Glide
@@ -9,6 +11,7 @@ import com.mieczkowskidev.wordhabit.main.contract.MainContract
 import com.mieczkowskidev.wordhabit.main.presenter.MainPresenter
 import com.mieczkowskidev.wordhabit.model.MyNotification
 import com.mieczkowskidev.wordhabit.utils.BuildTypeHelper
+import com.mieczkowskidev.wordhabit.utils.consume
 import com.mieczkowskidev.wordhabit.utils.visible
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -41,6 +44,22 @@ class MainActivity : AppCompatActivity(), MainContract.View {
             }
         }
     }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        return if (BuildTypeHelper.onlyDebug()) {
+            val inflater = menuInflater
+            inflater.inflate(R.menu.main_menu, menu)
+            true
+        } else {
+            super.onCreateOptionsMenu(menu)
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.menu_generate -> consume { presenter.generateMockNotification(this) }
+        else -> super.onOptionsItemSelected(item)
+    }
+
 
     override fun showInfoHeader(topic: String) {
         val infoText = getString(R.string.developer_version_info) + " $topic"
