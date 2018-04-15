@@ -10,10 +10,19 @@
         android:id="@+id/developer_version_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_margin="4dp"
         android:text="@string/developer_version_info"
         android:textStyle="bold"
+        android:visibility="gone"
+        tools:visibility="visible"/>
+
+    <Button
+        android:id="@+id/developer_version_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="4dp"
+        android:text="@string/developer_version_button"
         android:visibility="gone"
         tools:visibility="visible"/>
 

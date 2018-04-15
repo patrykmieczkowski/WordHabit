@@ -5,13 +5,17 @@ import android.support.v7.app.AppCompatActivity
 import android.view.MotionEvent
 import android.view.View
 import com.bumptech.glide.Glide
+import com.mieczkowskidev.wordhabit.main.contract.MainContract
+import com.mieczkowskidev.wordhabit.main.presenter.MainPresenter
 import com.mieczkowskidev.wordhabit.model.MyNotification
 import com.mieczkowskidev.wordhabit.utils.BuildTypeHelper
 import com.mieczkowskidev.wordhabit.utils.visible
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), MainContract.View {
+
+    private val presenter: MainContract.Presenter = MainPresenter()
 
     companion object {
         private val TAG = MainActivity::class.java.simpleName
@@ -22,16 +26,26 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        showDeveloperTools()
-
+        presenter.attach(this)
 //        NotificationProvider().hideNotification(this)
+        prepareListeners()
 
         readFromBundle(intent.extras)
     }
 
-    private fun showDeveloperTools() {
-        BuildTypeHelper.onlyDebug().let { developer_version_info.visible() }
+    private fun prepareListeners() {
+        BuildTypeHelper.onlyDebug().let {
+            developer_version_button.apply {
+                visible()
+                setOnClickListener { presenter.switchTopicClicked() }
+            }
+        }
+    }
 
+    override fun showInfoHeader(topic: String) {
+        val infoText = getString(R.string.developer_version_info) + " $topic"
+        developer_version_info.text = infoText
+        developer_version_info.visible()
     }
 
     private fun readFromBundle(extras: Bundle?) {

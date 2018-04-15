@@ -14,5 +14,6 @@
     <string name="notification_channel_description">Main Channel For Notification</string>
 
     <!-- debug strings -->
-    <string name="developer_version_info" translatable="false">This is developer version</string>
+    <string name="developer_version_info" translatable="false">This is developer version, topic:</string>
+    <string name="developer_version_button" translatable="false">Switch</string>
 </resources>

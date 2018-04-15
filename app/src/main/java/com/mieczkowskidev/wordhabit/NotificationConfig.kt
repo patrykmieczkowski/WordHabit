@@ -9,5 +9,6 @@ class NotificationConfig {
         const val NOTIFICATION_BUNDLE_TAG = "myNotification"
         const val NOTIFICATION_INTENT_ACTION = BuildConfig.APPLICATION_ID + ".MY_DATA"
         const val DEFAULT_TOPIC = "english"
+        const val QA_TOPIC = "english_qa"
     }
 }

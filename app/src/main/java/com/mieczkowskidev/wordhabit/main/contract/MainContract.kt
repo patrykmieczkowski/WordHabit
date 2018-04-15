@@ -7,10 +7,12 @@ interface MainContract {
 
     interface View {
 
+        fun showInfoHeader(topic: String)
     }
 
     interface Presenter {
         fun attach(view: View)
         fun detach()
+        fun switchTopicClicked()
     }
 }
