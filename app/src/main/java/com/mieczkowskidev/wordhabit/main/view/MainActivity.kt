@@ -27,8 +27,8 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
     private val presenter: MainContract.Presenter = MainPresenter()
 
-//    @Inject
-//    lateinit var receiver: BroadcastReceiver
+    @Inject
+    lateinit var receiver: BroadcastReceiver
 
     companion object {
         private val TAG = MainActivity::class.java.simpleName
@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
         readFromBundle(intent.extras)
 
-//        Log.d(TAG, "receiver hash ${receiver.hashCode()}")
+        Log.d(TAG, "receiver hash ${receiver.hashCode()}")
     }
 
     private fun initInjection() {

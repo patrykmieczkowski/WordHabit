@@ -5,7 +5,6 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.os.Build
 import android.support.annotation.RequiresApi
 import android.support.v4.app.NotificationCompat
@@ -26,14 +25,12 @@ class NotificationProvider {
         val TAG = NotificationProvider::class.java.simpleName
     }
 
-    var receiver = MyBroadcastReceiver()
-
     private val CHANNEL_ID = "main_channel"
     // notification ID is needed to update or remove the notification
     private val GLOBAL_NOTIFICATION_ID = 1
 
     fun createNotificationAndReceiver(appContext: Context, myNotification: MyNotification) {
-        Log.d(TAG, "NotificationProvider thread ${NotificationProvider.hashCode()}, receiver ${receiver.hashCode()}")
+//        Log.d(TAG, "NotificationProvider thread ${NotificationProvider.hashCode()}, receiver ${receiver.hashCode()}")
 
 //        if (!App.isRegistered) {
         registerBroadcastReceiver(appContext)
@@ -44,22 +41,19 @@ class NotificationProvider {
 
     private fun registerBroadcastReceiver(appContext: Context) {
 
-        if (receiver != null) {
-            try {
-                appContext.unregisterReceiver(receiver)
-//                App.isRegistered = false
+//        if (receiver != null) {
+//            try {
+//                appContext.unregisterReceiver(receiver)
+////                App.isRegistered = false
+//
+//            } catch (e: IllegalArgumentException) {
+//                Log.i(TAG, "my broadcast receiver is already unregistered")
+//            }
+//        } else {
+//            receiver = MyBroadcastReceiver()
+//        }
 
-            } catch (e: IllegalArgumentException) {
-                Log.i(TAG, "my broadcast receiver is already unregistered")
-            }
-        } else {
-            receiver = MyBroadcastReceiver()
-        }
 
-        Log.d(TAG, "registerBroadcastReceiver() for ${NotificationConfig.NOTIFICATION_INTENT_ACTION}")
-        val filter = IntentFilter()
-        filter.addAction(NotificationConfig.NOTIFICATION_INTENT_ACTION)
-        appContext.registerReceiver(receiver, filter)
 //        App.isRegistered = true
     }
 

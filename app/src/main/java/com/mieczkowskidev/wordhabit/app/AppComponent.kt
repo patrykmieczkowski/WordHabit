@@ -1,5 +1,6 @@
 package com.mieczkowskidev.wordhabit.app
 
+import android.content.BroadcastReceiver
 import android.content.Context
 import dagger.Component
 
@@ -11,4 +12,6 @@ import dagger.Component
 interface AppComponent {
 
     fun getAppContext(): Context
+
+    fun getBroadcastReceiver(): BroadcastReceiver
 }
