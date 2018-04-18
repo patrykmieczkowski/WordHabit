@@ -12,6 +12,7 @@ import android.support.v4.app.NotificationCompat
 import android.support.v4.app.NotificationManagerCompat
 import android.util.Log
 import com.mieczkowskidev.wordhabit.app.App
+import com.mieczkowskidev.wordhabit.main.view.MainActivity
 import com.mieczkowskidev.wordhabit.model.MyNotification
 import com.mieczkowskidev.wordhabit.model.TranslateType
 import io.reactivex.android.schedulers.AndroidSchedulers

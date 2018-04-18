@@ -1,24 +1,34 @@
-package com.mieczkowskidev.wordhabit
+package com.mieczkowskidev.wordhabit.main.view
 
+import android.content.BroadcastReceiver
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
 import com.bumptech.glide.Glide
+import com.mieczkowskidev.wordhabit.NotificationConfig
+import com.mieczkowskidev.wordhabit.R
+import com.mieczkowskidev.wordhabit.app.App
 import com.mieczkowskidev.wordhabit.main.contract.MainContract
+import com.mieczkowskidev.wordhabit.main.di.DaggerMainComponent
 import com.mieczkowskidev.wordhabit.main.presenter.MainPresenter
 import com.mieczkowskidev.wordhabit.model.MyNotification
 import com.mieczkowskidev.wordhabit.utils.BuildTypeHelper
 import com.mieczkowskidev.wordhabit.utils.consume
 import com.mieczkowskidev.wordhabit.utils.visible
 import kotlinx.android.synthetic.main.activity_main.*
+import javax.inject.Inject
 
 
 class MainActivity : AppCompatActivity(), MainContract.View {
 
     private val presenter: MainContract.Presenter = MainPresenter()
+
+//    @Inject
+//    lateinit var receiver: BroadcastReceiver
 
     companion object {
         private val TAG = MainActivity::class.java.simpleName
@@ -28,12 +38,23 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        initInjection()
 
         presenter.attach(this)
 //        NotificationProvider().hideNotification(this)
         prepareListeners()
 
         readFromBundle(intent.extras)
+
+//        Log.d(TAG, "receiver hash ${receiver.hashCode()}")
+    }
+
+    private fun initInjection() {
+
+        DaggerMainComponent.builder()
+                .appComponent((application as App).appComponent)
+                .build()
+                .injectMainActivity(this)
     }
 
     private fun prepareListeners() {

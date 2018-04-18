@@ -1,6 +1,8 @@
 package com.mieczkowskidev.wordhabit.app
 
+import android.content.BroadcastReceiver
 import android.content.Context
+import com.mieczkowskidev.wordhabit.MyBroadcastReceiver
 import dagger.Module
 import dagger.Provides
 
@@ -13,4 +15,8 @@ class AppModule(private val app: App) {
     @Provides
     @AppScope
     fun provideAppContext(): Context = app.applicationContext
+
+    @Provides
+    @AppScope
+    fun provideBroadcastReceiver(): BroadcastReceiver = MyBroadcastReceiver()
 }
