@@ -2,11 +2,10 @@ package com.mieczkowskidev.wordhabit.main.presenter
 
 import android.content.Context
 import com.google.firebase.messaging.FirebaseMessaging
-import com.mieczkowskidev.wordhabit.App
 import com.mieczkowskidev.wordhabit.NotificationConfig
 import com.mieczkowskidev.wordhabit.NotificationProvider
 import com.mieczkowskidev.wordhabit.main.contract.MainContract
-import com.mieczkowskidev.wordhabit.prefs
+import com.mieczkowskidev.wordhabit.app.prefs
 import com.mieczkowskidev.wordhabit.utils.BuildTypeHelper
 
 /**

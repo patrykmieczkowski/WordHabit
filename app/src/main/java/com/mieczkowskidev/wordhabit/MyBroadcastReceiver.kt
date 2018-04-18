@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import com.mieczkowskidev.wordhabit.app.App
 import com.mieczkowskidev.wordhabit.model.MyNotification
 import com.mieczkowskidev.wordhabit.model.TranslateType
 
@@ -32,7 +33,7 @@ class MyBroadcastReceiver : BroadcastReceiver() {
                     notificationData.translateType = TranslateType.PRIMARY
                 }
 
-                Log.d(TAG, "MyBroadcastReceiver receive data, translating to ${notificationData.translateType}")
+                Log.d(TAG, "MyBroadcastReceiver receive data ${notificationData.primaryLangWord}, translating to ${notificationData.translateType}")
 
                 NotificationProvider().createNotification(appContext, notificationData)
             }

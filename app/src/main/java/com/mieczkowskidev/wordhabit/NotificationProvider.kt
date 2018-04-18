@@ -11,6 +11,7 @@ import android.support.annotation.RequiresApi
 import android.support.v4.app.NotificationCompat
 import android.support.v4.app.NotificationManagerCompat
 import android.util.Log
+import com.mieczkowskidev.wordhabit.app.App
 import com.mieczkowskidev.wordhabit.model.MyNotification
 import com.mieczkowskidev.wordhabit.model.TranslateType
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -31,6 +32,7 @@ class NotificationProvider {
     private val GLOBAL_NOTIFICATION_ID = 1
 
     fun createNotificationAndReceiver(appContext: Context, myNotification: MyNotification) {
+        Log.d(TAG, "NotificationProvider thread ${NotificationProvider.hashCode()}, receiver ${receiver.hashCode()}")
 
 //        if (!App.isRegistered) {
         registerBroadcastReceiver(appContext)

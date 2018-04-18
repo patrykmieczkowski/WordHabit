@@ -1,4 +1,4 @@
-package com.mieczkowskidev.wordhabit
+package com.mieczkowskidev.wordhabit.app
 
 import android.app.Application
 import android.util.Log
@@ -14,6 +14,8 @@ val prefs: SharedPrefsManager by lazy {
 
 class App : Application() {
 
+    lateinit var appComponent: AppComponent
+
     companion object {
         private val TAG = App::class.java.simpleName
         var state: TranslateType? = null
@@ -22,9 +24,17 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
+
+        initDagger()
         prefs = SharedPrefsManager(this)
 
         Log.d(TAG, "Creating app")
+    }
+
+    private fun initDagger() {
+        appComponent = DaggerAppComponent.builder()
+                .appModule(AppModule(this))
+                .build()
     }
 
 }
