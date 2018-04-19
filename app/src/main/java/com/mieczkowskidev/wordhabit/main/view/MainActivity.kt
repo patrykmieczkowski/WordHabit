@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
         readFromBundle(intent.extras)
 
-        Log.d(TAG, "receiver hash ${receiver.hashCode()}")
+        Log.d(TAG, "receiver hash n ${receiver.hashCode()}")
     }
 
     private fun initInjection() {
