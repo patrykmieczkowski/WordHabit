@@ -17,4 +17,6 @@
     <string name="developer_version_info" translatable="false">This is developer version, topic:</string>
     <string name="developer_version_button" translatable="false">Switch</string>
     <string name="developer_generate" translatable="false">Generate</string>
+
+    <string name="test">Test</string>
 </resources>
