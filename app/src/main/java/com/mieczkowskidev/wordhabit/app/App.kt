@@ -28,7 +28,7 @@ class App : Application() {
         initDagger()
         prefs = SharedPrefsManager(this)
 
-        Log.d(TAG, "Creating app")
+        Log.d(TAG, "Creating app 4")
     }
 
     private fun initDagger() {
