@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import com.mieczkowskidev.wordhabit.app.App
 import com.mieczkowskidev.wordhabit.model.MyNotification
 import com.mieczkowskidev.wordhabit.model.TranslateType
 
@@ -21,13 +22,14 @@ class MyFirebaseMessageHandler : FirebaseMessagingService() {
 
         if (p0?.data?.isNotEmpty()!!) {
             Log.d(TAG, "onMessageReceived() message data payload ${p0.data}")
+//            (applicationContext as App).createNotificationProvider()
             handleNotification(applicationContext, p0.data)
         }
 
     }
 
     private fun handleNotification(appContext: Context, payload: Map<String, String>) =
-            NotificationProvider().createNotificationAndReceiver(appContext,
+            (appContext as App).notificationProvider?.createNotificationAndReceiver(appContext,
                     MyNotification(payload["primaryLangWord"], payload["primaryLangDescription"],
                             payload["secondaryLangWord"], payload["secondaryLangDescription"],
                             payload["image"], TranslateType.PRIMARY))

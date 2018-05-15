@@ -3,6 +3,7 @@ package com.mieczkowskidev.wordhabit.app
 import android.content.BroadcastReceiver
 import android.content.Context
 import com.mieczkowskidev.wordhabit.MyBroadcastReceiver
+import com.mieczkowskidev.wordhabit.model.LittleModel
 import dagger.Module
 import dagger.Provides
 
@@ -16,7 +17,11 @@ class AppModule(private val app: App) {
     @AppScope
     fun provideAppContext(): Context = app.applicationContext
 
+//    @Provides
+//    @AppScope
+//    fun provideBroadcastReceiver(): BroadcastReceiver = MyBroadcastReceiver()
+
     @Provides
     @AppScope
-    fun provideBroadcastReceiver(): BroadcastReceiver = MyBroadcastReceiver()
+    fun provideLittleModel(): LittleModel = LittleModel("tramwaj")
 }

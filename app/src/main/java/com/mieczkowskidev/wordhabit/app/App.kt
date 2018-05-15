@@ -1,14 +1,13 @@
 package com.mieczkowskidev.wordhabit.app
 
 import android.app.Application
-import android.content.BroadcastReceiver
 import android.content.IntentFilter
 import android.util.Log
+import com.mieczkowskidev.wordhabit.MyBroadcastReceiver
 import com.mieczkowskidev.wordhabit.NotificationConfig
 import com.mieczkowskidev.wordhabit.NotificationProvider
 import com.mieczkowskidev.wordhabit.model.TranslateType
 import com.mieczkowskidev.wordhabit.utils.SharedPrefsManager
-import javax.inject.Inject
 
 /**
  * Created by Patryk Mieczkowski on 05.04.2018
@@ -19,10 +18,15 @@ val prefs: SharedPrefsManager by lazy {
 
 class App : Application() {
 
-    @Inject
-    lateinit var receiver: BroadcastReceiver
+//    @Inject
+//    lateinit var receiver: BroadcastReceiver
 
     lateinit var appComponent: AppComponent
+
+    var notificationProvider: NotificationProvider? = null
+
+    var receiver: MyBroadcastReceiver = MyBroadcastReceiver()
+
 
     companion object {
         private val TAG = App::class.java.simpleName
@@ -36,8 +40,13 @@ class App : Application() {
         initDagger()
         initBroadcastReceiver()
         prefs = SharedPrefsManager(this)
+        createNotificationProvider()
 
         Log.d(TAG, "Creating app")
+    }
+
+    fun createNotificationProvider() {
+        notificationProvider = NotificationProvider(this, receiver)
     }
 
     private fun initBroadcastReceiver() {

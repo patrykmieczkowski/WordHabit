@@ -5,6 +5,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Build
 import android.support.annotation.RequiresApi
 import android.support.v4.app.NotificationCompat
@@ -19,43 +20,51 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 /**
  * Created by Patryk Mieczkowski on 19.03.2018
  */
-class NotificationProvider {
+class NotificationProvider(appContext: Context, receiver: MyBroadcastReceiver) {
+
+    private var receiver: MyBroadcastReceiver
+
+    init {
+        Log.d(NotificationProvider.TAG, "registerBroadcastReceiver() for ${NotificationConfig.NOTIFICATION_INTENT_ACTION}")
+//        val filter = IntentFilter()
+//        filter.addAction(NotificationConfig.NOTIFICATION_INTENT_ACTION)
+//        appContext.registerReceiver(receiver, filter)
+        this.receiver = receiver
+    }
+//
+//    fun detach(appContext: Context) {
+//        registerBroadcastReceiver(appContext)
+//    }
 
     companion object {
         val TAG = NotificationProvider::class.java.simpleName
+        private val CHANNEL_ID = "main_channel"
+
+        // notification ID is needed to update or remove the notification
+        private val GLOBAL_NOTIFICATION_ID = 1
     }
 
-    private val CHANNEL_ID = "main_channel"
-    // notification ID is needed to update or remove the notification
-    private val GLOBAL_NOTIFICATION_ID = 1
 
     fun createNotificationAndReceiver(appContext: Context, myNotification: MyNotification) {
 //        Log.d(TAG, "NotificationProvider thread ${NotificationProvider.hashCode()}, receiver ${receiver.hashCode()}")
 
 //        if (!App.isRegistered) {
-        registerBroadcastReceiver(appContext)
+//        registerBroadcastReceiver(appContext)
 //        }
 
         createNotification(appContext, myNotification)
     }
 
-    private fun registerBroadcastReceiver(appContext: Context) {
-
-//        if (receiver != null) {
-//            try {
-//                appContext.unregisterReceiver(receiver)
-////                App.isRegistered = false
+//    private fun registerBroadcastReceiver(appContext: Context) {
 //
-//            } catch (e: IllegalArgumentException) {
-//                Log.i(TAG, "my broadcast receiver is already unregistered")
-//            }
-//        } else {
-//            receiver = MyBroadcastReceiver()
+//        try {
+//            appContext.unregisterReceiver(receiver)
+//
+//        } catch (e: IllegalArgumentException) {
+//            Log.i(TAG, "my broadcast receiver is already unregistered")
 //        }
+//    }
 
-
-//        App.isRegistered = true
-    }
 
     fun createNotification(appContext: Context, myNotification: MyNotification) {
 
@@ -153,7 +162,7 @@ class NotificationProvider {
 
         val name = appContext.getString(R.string.notification_channel_name)
         val description = appContext.getString(R.string.notification_channel_description)
-        val channel = NotificationChannel(NotificationProvider().CHANNEL_ID, name, NotificationManager.IMPORTANCE_DEFAULT)
+        val channel = NotificationChannel(NotificationProvider.CHANNEL_ID, name, NotificationManager.IMPORTANCE_DEFAULT)
         channel.description = description
 
         val notificationManager = appContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -177,11 +186,12 @@ class NotificationProvider {
     private fun showTheNotification(context: Context, notificationBuilder: NotificationCompat.Builder) {
         Log.d(TAG, "showTheNotification() on UI")
         val notificationManager = NotificationManagerCompat.from(context)
-        notificationManager.notify(NotificationProvider().GLOBAL_NOTIFICATION_ID, notificationBuilder.build())
+        notificationManager.notify(NotificationProvider.GLOBAL_NOTIFICATION_ID, notificationBuilder.build())
     }
 
     fun hideNotification(context: Context) {
         val notificationManager = NotificationManagerCompat.from(context)
-        notificationManager.cancel(NotificationProvider().GLOBAL_NOTIFICATION_ID)
+        notificationManager.cancel(NotificationProvider.GLOBAL_NOTIFICATION_ID)
     }
+
 }

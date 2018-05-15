@@ -2,6 +2,7 @@ package com.mieczkowskidev.wordhabit.app
 
 import android.content.BroadcastReceiver
 import android.content.Context
+import com.mieczkowskidev.wordhabit.model.LittleModel
 import dagger.Component
 
 /**
@@ -13,5 +14,7 @@ interface AppComponent {
 
     fun getAppContext(): Context
 
-    fun getBroadcastReceiver(): BroadcastReceiver
+//    fun getBroadcastReceiver(): BroadcastReceiver
+
+    fun getLittleModel(): LittleModel
 }

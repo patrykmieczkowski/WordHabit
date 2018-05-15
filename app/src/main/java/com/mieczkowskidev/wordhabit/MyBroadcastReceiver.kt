@@ -35,7 +35,7 @@ class MyBroadcastReceiver : BroadcastReceiver() {
 
                 Log.d(TAG, "MyBroadcastReceiver receive data ${notificationData.primaryLangWord}, translating to ${notificationData.translateType}")
 
-                NotificationProvider().createNotification(appContext, notificationData)
+                (appContext as App).notificationProvider?.createNotification(appContext, notificationData)
             }
         }
     }

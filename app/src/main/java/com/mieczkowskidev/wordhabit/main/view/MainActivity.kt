@@ -15,9 +15,11 @@ import com.mieczkowskidev.wordhabit.app.App
 import com.mieczkowskidev.wordhabit.main.contract.MainContract
 import com.mieczkowskidev.wordhabit.main.di.DaggerMainComponent
 import com.mieczkowskidev.wordhabit.main.presenter.MainPresenter
+import com.mieczkowskidev.wordhabit.model.LittleModel
 import com.mieczkowskidev.wordhabit.model.MyNotification
 import com.mieczkowskidev.wordhabit.utils.BuildTypeHelper
 import com.mieczkowskidev.wordhabit.utils.consume
+import com.mieczkowskidev.wordhabit.utils.logd
 import com.mieczkowskidev.wordhabit.utils.visible
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
@@ -27,8 +29,12 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
     private val presenter: MainContract.Presenter = MainPresenter()
 
+//    @Inject
+//    lateinit var receiver: BroadcastReceiver
+
     @Inject
-    lateinit var receiver: BroadcastReceiver
+    lateinit var littleModel: LittleModel
+
 
     companion object {
         private val TAG = MainActivity::class.java.simpleName
@@ -46,7 +52,13 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
         readFromBundle(intent.extras)
 
-        Log.d(TAG, "receiver hash n ${receiver.hashCode()}")
+        logd(littleModel.name)
+    }
+
+    override fun onResume() {
+        super.onResume()
+//        Log.d(TAG, "receiver hash n ${receiver.hashCode()}")
+
     }
 
     private fun initInjection() {
